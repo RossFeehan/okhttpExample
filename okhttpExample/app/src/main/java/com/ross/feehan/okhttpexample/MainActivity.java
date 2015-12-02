@@ -1,37 +1,49 @@
 package com.ross.feehan.okhttpexample;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.Toast;
 
-public class MainActivity extends Activity {
+import com.ross.feehan.okhttpexample.Objects.TubeLine;
+import com.ross.feehan.okhttpexample.OkhttpClasses.GetTubeServices;
+import com.ross.feehan.okhttpexample.OkhttpClasses.GetTubeServicesInterface;
+
+import org.json.JSONArray;
+
+import java.util.List;
+
+public class MainActivity extends Activity implements GetTubeServicesInterface {
+
+    private Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        this.ctx = this;
+        GetTubeServices getTubeServices = new GetTubeServices(ctx, this);
+        getTubeServices.getTubeServices();
+    }
+
+    //INTERFACE METHODS
+    //GetTubeServicesInterface METHODS
+    @Override
+    public void noInternetConnection() {
+        Toast.makeText(ctx, "Sorry, no internet connection at the moment", Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    public void receiveTubeServices(JSONArray responseJson) {
+        //Parse the tubeline jsonarray into a List of TubeLine
+        List<TubeLine> tubeLineStates = ParseJsonArray.parseTubeStatesArray(responseJson);
+
+        //Display the list of tube lines here
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void somethingWentWrong() {
+        Toast.makeText(ctx, "Sorry, something went wrong", Toast.LENGTH_LONG).show();
     }
 }
