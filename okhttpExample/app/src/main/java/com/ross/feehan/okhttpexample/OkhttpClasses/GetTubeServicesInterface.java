@@ -9,8 +9,6 @@ import org.json.JSONArray;
  */
 public interface GetTubeServicesInterface {
 
-    void noInternetConnection();
-
     void receiveTubeServices(JSONArray responseJson);
 
     void somethingWentWrong();

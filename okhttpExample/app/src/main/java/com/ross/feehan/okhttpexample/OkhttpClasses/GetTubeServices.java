@@ -23,11 +23,8 @@ public class GetTubeServices {
     }
 
     public void getTubeServices(){
-        //TODO if there is internet connection
         getTubeServices = new GetTubeServicesAsync();
         getTubeServices.execute();
-
-        listenerClass.noInternetConnection();
     }
 
     private class GetTubeServicesAsync extends AsyncTask<Void, Void, Void> {
